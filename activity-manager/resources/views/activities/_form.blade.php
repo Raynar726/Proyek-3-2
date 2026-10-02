@@ -5,6 +5,12 @@
 </div>
 
 <div>
+    <label for="code">Kode Kegiatan</label>
+    <input type="text" id="code" name="code" value="{{ old('code', $activity->code ?? '') }}">
+    @error('code') <p style="color: red;">{{ $message }}</p> @enderror
+</div>
+
+<div>
     <label for="description">Deskripsi</label>
     <textarea id="description" name="description">{{ old('description', $activity->description ?? '') }}</textarea>
     @error('description') <p style="color: red;">{{ $message }}</p> @enderror
@@ -17,9 +23,16 @@
 </div>
 
 <div>
-    <label for="category">Kategori</label>
-    <input type="text" id="category" name="category" value="{{ old('category', $activity->category ?? '') }}">
-    @error('category') <p style="color: red;">{{ $message }}</p> @enderror
+    <label for="category_id">Kategori</label>
+    <select name="category_id" id="category_id">
+        <option value="">-- Pilih Kategori --</option>
+        @foreach($categories as $cat)
+            <option value="{{ $cat->id }}" @selected(old('category_id', $activity->category_id ?? '') == $cat->id)>
+                {{ $cat->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('category_id') <p style="color: red;">{{ $message }}</p> @enderror
 </div>
 
 <div>

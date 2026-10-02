@@ -8,7 +8,7 @@
     @endif
 
     <p><strong>Tanggal:</strong> {{ $activity->activity_date->format('d M Y') }}</p>
-    <p><strong>Kategori:</strong> {{ $activity->category }}</p>
+    <p><strong>Kategori:</strong> {{ $activity->category->name }}</p>
     <p><strong>Status:</strong> {{ $activity->status }}</p>
     
     <p><strong>Deskripsi:</strong></p>

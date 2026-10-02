@@ -8,9 +8,10 @@ class Activity extends Model
 {
     protected $fillable = [
         'title',
+        'code',
         'description',
         'activity_date',
-        'category',
+        'category_id',
         'status',
     ];
 
@@ -19,5 +20,10 @@ class Activity extends Model
         return [
             'activity_date' => 'date',
         ];
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

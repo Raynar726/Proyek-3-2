@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Category;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreActivityRequest;
@@ -23,7 +24,8 @@ class ActivityController extends Controller
 
     public function create(): View
     {
-        return view('activities.create');
+        $categories = Category::all();
+        return view('activities.create', compact('categories'));
     }
 
     public function store(StoreActivityRequest $request, ActivityService $service): RedirectResponse
@@ -41,7 +43,8 @@ class ActivityController extends Controller
 
     public function edit(Activity $activity): View
     {
-        return view('activities.edit', compact('activity'));
+        $categories = Category::all();
+        return view('activities.edit', compact('activity', 'categories'));
     }
 
     public function update(UpdateActivityRequest $request, Activity $activity, ActivityService $service): RedirectResponse
