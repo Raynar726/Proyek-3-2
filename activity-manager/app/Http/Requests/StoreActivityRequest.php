@@ -20,10 +20,10 @@ class StoreActivityRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:1000'],
             'activity_date' => ['required', 'date'],
             'category_id' => ['required', 'exists:categories,id'],
-            'status' => [
-                'required',
-                Rule::in(['Planned', 'Ongoing', 'Done']),
-            ],
+            // 'status' => [
+            //     'required',
+            //     Rule::in(['Planned', 'Ongoing', 'Done']),
+            // ],
         ];
     }
 }

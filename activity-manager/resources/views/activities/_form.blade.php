@@ -35,7 +35,7 @@
     @error('category_id') <p style="color: red;">{{ $message }}</p> @enderror
 </div>
 
-<div>
+<!-- <div>
     <label for="status">Status</label>
     <select name="status" id="status">
         @foreach (['Planned', 'Ongoing', 'Done'] as $status)
@@ -45,4 +45,4 @@
         @endforeach
     </select>
     @error('status') <p style="color: red;">{{ $message }}</p> @enderror
-</div>
+</div> -->

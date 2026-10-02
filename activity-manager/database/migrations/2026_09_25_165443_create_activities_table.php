@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 100);
             $table->text('description')->nullable();
             $table->date('activity_date');
-            $table->string('status', 20)->default('Planned');
+            $table->string('status', 20)->default('draft');
             $table->timestamps();
         });
     }

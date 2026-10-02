@@ -13,13 +13,36 @@ use DomainException;
 
 class ActivityController extends Controller
 {
-    public function index(): View
+    public function index(\Illuminate\Http\Request $request)
     {
-        $activities = Activity::query()
-            ->orderBy('activity_date')
-            ->get();
+        $activities = \App\Models\Activity::with('category')
+            ->when($request->search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('code', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->category_id, function ($query, $category) {
+                $query->where('category_id', $category);
+            })
+            ->when($request->status, function ($query, $status) {
+                $query->where('status', $status);
+            })
+            ->when($request->sort, function ($query, $sort) {
+                if ($sort === 'terlama') {
+                    $query->oldest('activity_date');
+                } else {
+                    $query->latest('activity_date');
+                }
+            }, function ($query) {
+                $query->latest('activity_date');
+            })
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('activities.index', compact('activities'));
+        $categories = \App\Models\Category::all();
+
+        return view('activities.index', compact('activities', 'categories'));
     }
 
     public function create(): View
@@ -67,5 +90,19 @@ class ActivityController extends Controller
         
         return redirect()->route('activities.index')
             ->with('success', 'Kegiatan berhasil dihapus.');
+    }
+
+    public function publish(Activity $activity, ActivityService $service)
+    {
+        $service->publish($activity);
+        return redirect()->route('activities.show', $activity)->with('success', 'Kegiatan berhasil dipublikasikan!');
+    }
+
+    public function complete(Activity $activity, ActivityService $service)
+    {
+        $service->complete($activity);
+        
+        return redirect()->route('activities.show', $activity)
+                        ->with('success', 'Kegiatan berhasil diselesaikan!');
     }
 }

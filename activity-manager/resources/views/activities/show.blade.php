@@ -2,6 +2,11 @@
 
 @section('content')
     <h1>{{ $activity->title }}</h1>
+    @error('status')
+    <div style="background: #ffdddd; color: red; padding: 10px; border: 1px solid red; margin-bottom: 10px;">
+        {{ $message }}
+    </div>
+    @enderror
     
     @if (session('success'))
         <p style="color: green;">{{ session('success') }}</p>
@@ -16,6 +21,22 @@
 
     <a href="{{ route('activities.edit', $activity) }}">Edit</a>
     
+    @if ($activity->status === 'draft')
+    <form action="{{ route('activities.publish', $activity) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('PATCH')
+        <button type="submit" onclick="return confirm('Yakin ingin mempublikasikan kegiatan ini?')">Publish</button>
+    </form>
+    @endif
+
+    @if ($activity->status === 'published')
+    <form action="{{ route('activities.complete', $activity) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('PATCH')
+        <button type="submit" onclick="return confirm('Yakin ingin menyelesaikan kegiatan ini?')">Complete</button>
+    </form>
+    @endif
+
     <form action="{{ route('activities.destroy', $activity) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
