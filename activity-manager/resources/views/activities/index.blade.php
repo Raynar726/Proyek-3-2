@@ -8,6 +8,7 @@
     @endif
 
     <a href="{{ route('activities.create') }}">Tambah Kegiatan</a>
+    <a href="{{ route('activities.trash') }}">Lihat Trash</a>
     <hr>
     <form action="{{ route('activities.index') }}" method="GET" style="margin-bottom: 20px;">
     <!-- Cari Kode/Judul -->

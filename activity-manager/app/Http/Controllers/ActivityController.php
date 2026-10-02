@@ -105,4 +105,18 @@ class ActivityController extends Controller
         return redirect()->route('activities.show', $activity)
                         ->with('success', 'Kegiatan berhasil diselesaikan!');
     }
+
+    public function trash()
+    {
+        $activities = \App\Models\Activity::onlyTrashed()->get();
+        return view('activities.trash', compact('activities'));
+    }
+
+    public function restore($id)
+    {
+        $activity = \App\Models\Activity::onlyTrashed()->findOrFail($id);
+        $activity->restore();
+        
+        return redirect()->route('activities.index')->with('success', 'Data berhasil dipulihkan dari Trash!');
+    }
 }

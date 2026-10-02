@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'title',
         'code',
@@ -13,6 +15,9 @@ class Activity extends Model
         'activity_date',
         'category_id',
         'status',
+        'capacity', 
+        'registered_count', 
+        'start_at'
     ];
 
     protected function casts(): array
@@ -25,5 +30,10 @@ class Activity extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class);
     }
 }
