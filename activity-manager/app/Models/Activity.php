@@ -15,6 +15,7 @@ class Activity extends Model
         'activity_date',
         'category_id',
         'status',
+        'poster',
         'capacity', 
         'registered_count', 
         'start_at'

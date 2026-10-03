@@ -12,11 +12,17 @@
         </ul>
     </div>
 @endif
-    <form action="{{ route('activities.store') }}" method="POST">
+    <form action="{{ route('activities.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        
+
         @include('activities._form')
-        
+
+        <div style="margin-bottom: 15px;">
+            <label>Upload Poster (JPG/PNG, Max 2MB):</label>
+            <br>
+            <input type="file" name="poster" accept="image/png, image/jpeg">
+        </div>
+
         <button type="submit">Simpan</button>
     </form>
     

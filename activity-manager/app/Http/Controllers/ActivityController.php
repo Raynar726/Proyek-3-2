@@ -53,8 +53,14 @@ class ActivityController extends Controller
 
     public function store(StoreActivityRequest $request, ActivityService $service): RedirectResponse
     {
-        $activity = $service->create($request->validated());
-        
+        $validated = $request->validated();
+
+        if ($request->hasFile('poster')) {
+            $validated['poster'] = $request->file('poster')->store('posters', 'public');
+        }
+
+        $activity = $service->create($validated);
+
         return redirect()->route('activities.show', $activity)
             ->with('success', 'Kegiatan berhasil dibuat.');
     }
@@ -70,18 +76,23 @@ class ActivityController extends Controller
         return view('activities.edit', compact('activity', 'categories'));
     }
 
-    public function update(UpdateActivityRequest $request, Activity $activity, ActivityService $service): RedirectResponse
+    public function update(\Illuminate\Http\Request $request, \App\Models\Activity $activity)
     {
-        try {
-            $service->update($activity, $request->validated());
-        } catch (DomainException $exception) {
-            return back()
-                ->withErrors(['status' => $exception->getMessage()])
-                ->withInput();
+        $validated = $request->validate([
+            'title' => 'required',
+            'poster' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', 
+        ]);
+
+        if ($request->hasFile('poster')) {
+            if ($activity->poster && \Illuminate\Support\Facades\Storage::disk('public')->exists($activity->poster)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($activity->poster);
+            }
+            $validated['poster'] = $request->file('poster')->store('posters', 'public');
         }
-        
-        return redirect()->route('activities.show', $activity)
-            ->with('success', 'Kegiatan berhasil diperbarui.');
+
+        $activity->update($validated);
+
+        return redirect()->route('activities.index')->with('success', 'Kegiatan berhasil diupdate!');
     }
 
     public function destroy(Activity $activity): RedirectResponse

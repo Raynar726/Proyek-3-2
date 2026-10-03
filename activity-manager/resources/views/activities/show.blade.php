@@ -7,6 +7,12 @@
         {{ $message }}
     </div>
     @enderror
+
+    @if($activity->poster)
+    <div style="margin-bottom: 15px;">
+        <img src="{{ asset('storage/' . $activity->poster) }}" alt="Poster Kegiatan" width="300" style="border: 1px solid #ccc;">
+    </div>
+    @endif
     
     @if (session('success'))
         <p style="color: green;">{{ session('success') }}</p>
