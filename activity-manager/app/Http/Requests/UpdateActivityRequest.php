@@ -20,10 +20,10 @@ class UpdateActivityRequest extends FormRequest
             'activity_date' => ['required', 'date'],
             'category_id' => ['required', 'exists:categories,id'],
             'code' => ['required', 'string', 'max:30', Rule::unique('activities', 'code')->ignore($this->route('activity'))],
-            'status' => [
-                'required',
-                Rule::in(['Planned', 'Ongoing', 'Done']),
-            ],
+            // 'status' => [
+            //     'required',
+            //     Rule::in(['Planned', 'Ongoing', 'Done']),
+            // ],
         ];
     }
 }
