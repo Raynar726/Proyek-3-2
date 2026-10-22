@@ -22,12 +22,14 @@ class DatabaseSeeder extends Seeder
             'username' => 'ahmad',
             'nama_lengkap' => 'Ahmad Fauzan',
             'password' => Hash::make('admin1234'),
+            'role' => 'admin',
         ]);
 
         User::create([
             'username' => 'budi',
             'nama_lengkap' => 'Budi Santoso',
             'password' => Hash::make('budi1234'),
+            'role' => 'customer',
         ]);
     }
 }
