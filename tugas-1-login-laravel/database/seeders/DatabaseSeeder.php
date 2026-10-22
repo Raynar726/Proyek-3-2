@@ -31,5 +31,12 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('budi1234'),
             'role' => 'customer',
         ]);
+
+        User::create([
+        'username' => 'citra',
+        'nama_lengkap' => 'Citra Fitri',
+        'password' => Hash::make('citra1234'),
+        'role' => 'staff',
+        ]);
     }
 }
